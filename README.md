@@ -1,3 +1,3 @@
-# hello-bot
+# SituationsTelegramBot
 
-A description of this package.
+Bot for story quest
