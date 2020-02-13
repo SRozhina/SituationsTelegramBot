@@ -1,1 +1,1 @@
-web: SituationsTelegramBot --bind 0.0.0.0:$PORT
+web: SituationsTelegramBot --workers 3 --bind 0.0.0.0:$PORT
