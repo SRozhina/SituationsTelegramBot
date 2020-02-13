@@ -1,1 +1,1 @@
-web: SituationsTelegramBot
+web: ./SituationsTelegramBot
