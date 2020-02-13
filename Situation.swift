@@ -1,5 +1,10 @@
-struct Situation {
+struct Situation: Codable {
+    struct Action: Codable {
+        let text: String
+        let nextSituationId: String
+    }
+    
     let id: String
     let text: String
-    let answers: [(answer: String, nextQuestionId: String)]
+    let actions: [Action]
 }

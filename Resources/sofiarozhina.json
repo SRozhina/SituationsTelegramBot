@@ -1,0 +1,74 @@
+[
+    {
+        "id": "first",
+        "text": "First situation sonya",
+        "actions": [
+            {
+                "text": "answer 2",
+                "nextSituationId": "second"
+            },
+            {
+                "text": "answer 3",
+                "nextSituationId": "third"
+            },
+            {
+                "text": "answer 4",
+                "nextSituationId": "fourth"
+            }
+        ]
+    },
+    {
+        "id": "second",
+        "text": "Second situation sonya",
+        "actions": [
+            {
+                "text": "answer 3",
+                "nextSituationId": "third"
+            },
+            {
+                "text": "answer 4",
+                "nextSituationId": "fourth"
+            },
+            {
+                "text": "answer 1",
+                "nextSituationId": "first"
+            }
+        ]
+    },
+    {
+        "id": "third",
+        "text": "Third situation sonya",
+        "actions": [
+            {
+                "text": "answer 4",
+                "nextSituationId": "fourth"
+            },
+            {
+                "text": "answer 1",
+                "nextSituationId": "first"
+            },
+            {
+                "text": "answer 2",
+                "nextSituationId": "second"
+            }
+        ]
+    },
+    {
+        "id": "fourth",
+        "text": "Fourth situation sonya",
+        "actions": [
+            {
+                "text": "answer 1",
+                "nextSituationId": "first"
+            },
+            {
+                "text": "answer 2",
+                "nextSituationId": "second"
+            },
+            {
+                "text": "answer 3",
+                "nextSituationId": "third"
+            }
+        ]
+    }
+]

@@ -20,8 +20,7 @@ class Controller {
             let from = message.from,
             let username = from.username,
             situations.isEmpty {
-            //load user scenario
-            situations = getSituations()
+            situations = getSituations(for: username)
             for situation in situations {
                 router[.callback_query(data: situation.id)] = { [weak self] context in
                     guard let self = self else { return true }
@@ -35,10 +34,10 @@ class Controller {
     
     private func handle(context: Context, for situation: Situation) {
         var markup = InlineKeyboardMarkup()
-        let buttons: [InlineKeyboardButton] = situation.answers.map { answer in
+        let buttons: [InlineKeyboardButton] = situation.actions.map { action in
             var button = InlineKeyboardButton()
-            button.text = answer.answer
-            button.callbackData = answer.nextQuestionId
+            button.text = action.text
+            button.callbackData = action.nextSituationId
             return button
         }
         
@@ -46,20 +45,12 @@ class Controller {
         context.respondAsync(situation.text, replyMarkup: markup)
     }
     
-    private func getSituations() -> [Situation] {
-        return [
-            Situation(id: "first", text: "First situation", answers: [(answer: "answer 1", nextQuestionId: "second"),
-                                                                      (answer: "answer 2", nextQuestionId: "third"),
-                                                                      (answer: "answer 3", nextQuestionId: "fourth")]),
-            Situation(id: "second", text: "Second situation", answers: [(answer: "answer 1", nextQuestionId: "third"),
-                                                                        (answer: "answer 2", nextQuestionId: "fourth"),
-                                                                        (answer: "answer 3", nextQuestionId: "first")]),
-            Situation(id: "third", text: "Third situation", answers: [(answer: "answer 1", nextQuestionId: "fourth"),
-                                                                      (answer: "answer 2", nextQuestionId: "first"),
-                                                                      (answer: "answer 3", nextQuestionId: "second")]),
-            Situation(id: "fourth", text: "Fourth situation", answers: [(answer: "answer 1", nextQuestionId: "first"),
-                                                                        (answer: "answer 2", nextQuestionId: "second"),
-                                                                        (answer: "answer 3", nextQuestionId: "third")])
-        ]
+    private func getSituations(for userName: String) -> [Situation] {
+        guard let data = Resources.Sofiarozhina_Json().contents,
+        let situations = try? JSONDecoder().decode([Situation].self, from: data) else {
+            assertionFailure("don't have file or couldn't parse")
+            return []
+        }
+        return situations
     }
 }
