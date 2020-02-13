@@ -12,4 +12,14 @@ while let update = bot.nextUpdateSync() {
     try? controller.handle(update: update)
 }
 
+func resolvePort() -> Int {
+    let defaultPort = 8080
+    
+    if let requestedPort = ProcessInfo.processInfo.environment["PORT"],
+        let port = Int(requestedPort) {
+        return port
+    }
+    return defaultPort
+}
+
 fatalError("Server stopped due to error: \(bot.lastError)")
