@@ -1,1 +1,1 @@
-web: ./SituationsTelegramBot
+web: SituationsTelegramBot --bind 0.0.0.0:$PORT
