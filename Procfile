@@ -1,1 +1,1 @@
-web: SituationsTelegramBot --env production --hostname 0.0.0.0 --port $PORT
+web: SituationsTelegramBot --workers 3 --bind 0.0.0.0:$PORT
