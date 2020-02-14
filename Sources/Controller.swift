@@ -46,8 +46,10 @@ class Controller {
     }
     
     private func getSituations(for userName: String) -> [Situation] {
-        guard let data = Resources.Sofiarozhina_Json().contents,
-        let situations = try? JSONDecoder().decode([Situation].self, from: data) else {
+        guard let fileType = Resources().children.first(where: { $0.filename.contains(userName) }),
+            let file = fileType as? File,
+            let data = file.contents,
+            let situations = try? JSONDecoder().decode([Situation].self, from: data) else {
             assertionFailure("don't have file or couldn't parse")
             return []
         }
