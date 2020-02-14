@@ -10,7 +10,7 @@ func connect() {
 
     let port = UInt32(ProcessInfo.processInfo.environment["PORT"] ?? "443") ?? 8080
     
-    CFStreamCreatePairWithSocketToHost(kCFAllocatorDefault,
+    CFStreamCreatePairWithSocketToHost(nil,
                                        "0.0.0.0" as CFString,
                                        port,
                                        &readStream,
