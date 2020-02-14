@@ -1,5 +1,6 @@
 import Foundation
 import TelegramBotSDK
+import CoreFoundation
 
 var inputStream: InputStream!
 var outputStream: OutputStream!
@@ -10,7 +11,7 @@ func connect() {
 
     let port = UInt32(ProcessInfo.processInfo.environment["PORT"] ?? "443") ?? 8080
     
-    CFStreamCreatePairWithSocketToHost(nil,
+    CFStreamCreatePairWithSocketToHost(kCFAllocatorDefault,
                                        "0.0.0.0" as CFString,
                                        port,
                                        &readStream,
