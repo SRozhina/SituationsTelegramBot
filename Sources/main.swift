@@ -1,7 +1,8 @@
 import Foundation
 import TelegramBotSDK
 
-FakeServer().setup()
+let server = FakeServer()
+server.setup()
 
 let token = "1085354218:AAGE7e1zuHdDLqubM9fsg5D-yn4TYB8Qwhk"
 let bot = TelegramBot(token: token)
