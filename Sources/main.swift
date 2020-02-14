@@ -1,33 +1,10 @@
 import Foundation
 import TelegramBotSDK
-import CoreFoundation
+import Swifter
 
-var inputStream: InputStream!
-var outputStream: OutputStream!
-
-func connect() {
-    var readStream:  Unmanaged<CFReadStream>?
-    var writeStream: Unmanaged<CFWriteStream>?
-
-    let port = UInt32(ProcessInfo.processInfo.environment["PORT"] ?? "443") ?? 8080
-    
-    CFStreamCreatePairWithSocketToHost(kCFAllocatorDefault,
-                                       "0.0.0.0" as CFString,
-                                       port,
-                                       &readStream,
-                                       &writeStream)
-
-    inputStream = readStream!.takeRetainedValue()
-    outputStream = writeStream!.takeRetainedValue()
-
-    inputStream.schedule(in: .current, forMode: .common)
-    outputStream.schedule(in: .current, forMode: .common)
-
-    inputStream.open()
-    outputStream.open()
-}
-
-connect()
+let server = HttpServer()
+let port = ProcessInfo.processInfo.environment["PORT"] ?? "8080"
+try? server.start(UInt16(port) ?? 8080, forceIPv4: false, priority: .userInitiated)
 
 print("starting the bot...")
 
