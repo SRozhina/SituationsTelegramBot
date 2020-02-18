@@ -56,19 +56,6 @@
     {
         "id": "fourth",
         "text": "Fourth situation sonya",
-        "actions": [
-            {
-                "text": "answer 1",
-                "nextSituationId": "first"
-            },
-            {
-                "text": "answer 2",
-                "nextSituationId": "second"
-            },
-            {
-                "text": "answer 3",
-                "nextSituationId": "third"
-            }
-        ]
+        "actions": []
     }
 ]

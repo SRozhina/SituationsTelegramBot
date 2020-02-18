@@ -2,31 +2,41 @@ import Foundation
 import TelegramBotSDK
 
 class Controller {
-    private let router: Router
+    private var routers: [String: Router] = [:]
+    private let bot: TelegramBot
     private var situations: [String: [Situation]] = [:]
     
-    init(router: Router) {
-        self.router = router
+    init(bot: TelegramBot) {
+        self.bot = bot
+        let router = Router(bot: bot)
         
         router["start"] = { [weak self] context in
             guard let self = self,
                 let username = context.message?.from?.username else { return true }
             let currentSituations = self.getSituations(for: context.args.scanWord() ?? username)
             self.situations[username] = currentSituations
+            let userRouter = Router(bot: bot)
             for situation in currentSituations {
-                router[.callback_query(data: situation.id)] = { [weak self] context in
+                userRouter[.callback_query(data: situation.id)] = { [weak self] context in
                     guard let self = self else { return true }
                     self.handle(context: context, for: situation)
                     return true
                 }
             }
+            self.routers[username] = userRouter
             self.handle(context: context, for: currentSituations[0])
             return true
         }
+        
+        routers["main"] = router
     }
     
     func handle(update: Update) throws {
-        try router.process(update: update)
+        if let username = update.callbackQuery?.from.username, let userRouter = routers[username] {
+            try userRouter.process(update: update)
+        } else {
+            try routers["main"]?.process(update: update)
+        }
     }
     
     private func handle(context: Context, for situation: Situation) {
@@ -36,6 +46,10 @@ class Controller {
             button.text = action.text
             button.callbackData = action.nextSituationId
             return button
+        }
+        
+        if buttons.isEmpty, let username = context.update.callbackQuery?.from.username {
+            finishStory(for: username)
         }
         
         markup.inlineKeyboard = [buttons]
@@ -51,5 +65,9 @@ class Controller {
             return []
         }
         return situations
+    }
+    
+    private func finishStory(for username: String) {
+        routers.removeValue(forKey: username) 
     }
 }
