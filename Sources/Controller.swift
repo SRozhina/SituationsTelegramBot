@@ -52,12 +52,13 @@ class Controller {
             finishStory(for: username)
         }
         
-        markup.inlineKeyboard = [buttons]
+        markup.inlineKeyboard = buttons.map { [$0] }
         context.respondAsync(situation.text, replyMarkup: markup)
     }
     
     private func getSituations(for userName: String) -> [Situation] {
-        guard let fileType = Resources().children.first(where: { $0.filename.lowercased().contains(userName.lowercased()) }),
+        //guard let fileType = Resources().children.first(where: { $0.filename.lowercased().contains(userName.lowercased()) }),
+        guard let fileType = Resources().children.first,
             let file = fileType as? File,
             let data = file.contents,
             let situations = try? JSONDecoder().decode([Situation].self, from: data) else {

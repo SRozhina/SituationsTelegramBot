@@ -4,7 +4,7 @@ import TelegramBotSDK
 let server = FakeServer()
 server.setup()
 
-let token = "1085354218:AAGE7e1zuHdDLqubM9fsg5D-yn4TYB8Qwhk"
+let token = "1098709393:AAEbylV3dHU9zRbtpH6c2FklaNFdxsVzHIU"
 let bot = TelegramBot(token: token)
 let controller = Controller(bot: bot)
 
